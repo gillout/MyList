@@ -1,2 +1,2 @@
 # MyList
-formation Android Studio FormationGreta
+Formation Android Studio
