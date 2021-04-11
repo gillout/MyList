@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".form.FormProduct">
+    tools:context=".admin.form.FormProduct">
 
     <TextView
         android:id="@+id/titleProductAdd"
@@ -15,7 +15,7 @@
         style="@style/title" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/eProductName"
+        android:id="@+id/txtInLayoutProductName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -35,12 +35,13 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eProductName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/eProductBrand"
+        android:id="@+id/txtInLayoutProductBrand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -58,12 +59,13 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eProductBrand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/eProductPrice"
+        android:id="@+id/txtInLayoutProductPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -81,12 +83,13 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eProductPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/eProductCategory"
+        android:id="@+id/txtInLayoutProductCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -104,6 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eProductCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -115,11 +119,11 @@
         android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/eProductPrice"
+        app:layout_constraintTop_toBottomOf="@+id/txtInLayoutProductPrice"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/eProductStore"
+        android:id="@+id/txtInLayoutProductStore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -137,6 +141,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eProductStore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -148,7 +153,7 @@
         android:background="@drawable/btn_round_shape"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eProductCategory"
+        app:layout_constraintTop_toBottomOf="@+id/txtInLayoutProductCategory"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
@@ -158,8 +163,7 @@
         app:backgroundTint="#234459"
         android:onClick="productRegistration"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eProductStore"
+        app:layout_constraintTop_toBottomOf="@+id/txtInLayoutProductStore"
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/button" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

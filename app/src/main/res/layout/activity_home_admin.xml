@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".admin.HomeAdmin">
+
+    <TextView
+        android:id="@+id/titleHomeAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Formulaires et listes"
+        style="@style/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnHomeAdmCat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Catégorie"
+        android:onClick="categoryForm"
+        style="@style/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleHomeAdmin" />
+
+    <Button
+        android:id="@+id/btnHomeAdmProd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Produit"
+        android:onClick="productForm"
+        style="@style/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHomeAdmCat" />
+
+    <Button
+        android:id="@+id/btnHomeAdmStore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Magasin"
+        android:onClick="storeForm"
+        style="@style/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHomeAdmProd" />
+
+    <Button
+        android:id="@+id/btnHomeAdmShoplist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liste de courses"
+        android:onClick="shoppinglistForm"
+        style="@style/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHomeAdmStore" />
+
+    <Button
+        android:id="@+id/btnHomeAdmListCat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liste des catégories"
+        android:onClick="catList"
+        style="@style/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHomeAdmShoplist" />
+
+    <Button
+        android:id="@+id/btnHomeAdmListProd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liste des produits"
+        android:onClick="prodList"
+        style="@style/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHomeAdmListCat" />
+
+    <Button
+        android:id="@+id/btnHomeAdmListStore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liste des magasins"
+        android:onClick="storeList"
+        style="@style/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHomeAdmListProd" />
+
+    <Button
+        android:id="@+id/btnHomeAdmListShoplist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liste des listes de courses"
+        android:onClick="shoppinglistList"
+        style="@style/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHomeAdmListStore" />
+</androidx.constraintlayout.widget.ConstraintLayout>

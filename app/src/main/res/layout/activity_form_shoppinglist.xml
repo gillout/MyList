@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.form.FormStore">
+    tools:context=".admin.form.FormShoppinglist">
 
     <TextView
-        android:id="@+id/titleStoreAdd"
-        android:text="@string/title_store_add"
+        android:id="@+id/titleShoppinglistAdd"
+        android:text="@string/title_shoppinglist_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         style="@style/title" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtInLayoutStoreName"
+        android:id="@+id/txtInLayoutShoppinglistName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -35,19 +35,20 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eStoreName"
+            android:id="@+id/eShoppinglistName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnCategoryAdd"
+        android:id="@+id/btnShoppinglistAdd"
+        android:layout_marginTop="30dp"
         android:text="@string/btn_add"
         android:background="@drawable/btn_round_shape"
         app:backgroundTint="#234459"
-        android:onClick="storeRegistration"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="shoppinglistRegistration"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInLayoutStoreName"
+        app:layout_constraintTop_toBottomOf="@+id/txtInLayoutShoppinglistName"
+        app:layout_constraintEnd_toEndOf="parent"
         style="@style/button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

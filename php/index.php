@@ -40,49 +40,50 @@ if (!empty($_SERVER["PATH_INFO"])) {
 $display = "";
 if (empty($params) || !isset($params[1])) {
     $display = 'Aucun paramètre n\'a été fourni';
-} elseif ($params[1] !== PROD && $params[1] !== CAT && $params[1] !== MAG) {
+} elseif ($params[1] !== PROD && !$params[1] !== CAT && $params[1] !== MAG) {
     $display = 'Paramètre non correcte, veuillez fournir "' . PROD . '" ou "' . CAT . '" ou "' . MAG . '"';
 } else {
 // Le traitement sera fait en fonction du type de la requête HTTP
+
     switch ($method) {
         case "POST":
             $display = "Ajout ";
 
             if ($params[1] === PROD) {
-                $display .= PRODS;
+                $display = PRODS;
 
                 $productManager = new ProductManager($db);
-                $display = $productManager->create($db, $input);
+                $productManager->create($db, $input);
             } elseif ($params[1] === CAT) {
-                $display .= CATS;
+                $display = CATS;
 
                 $categoryManager = new CategoryManager($db);
-               $display = $categoryManager->create($db, $input);
+                $categoryManager->create($db, $input);
             } elseif ($params[1] === MAG) {
-                $display .= MAGS;
+                $display = MAGS;
 
                 $storeManager = new StoreManager($db);
-                $display = $storeManager->create($db, $input);
+                $storeManager->create($db, $input);
             }
             break;
         case "PUT":
             $display = 'Mise à jour ';
 
             if ($params[1] === PROD) {
-                $display .= PRODS;
+                $display = PRODS;
 
                 $productManager = new ProductManager($db);
-                $display = $productManager->update($db, $input);
+                $productManager->update($db, $input);
             } elseif ($params[1] === CAT) {
-                $display .= CATS;
+                $display = CATS;
 
                 $categoryManager = new CategoryManager($db);
-                $display = $categoryManager->update($db, $input);
+                $categoryManager->update($db, $input);
             } elseif ($params[1] === MAG) {
-                $display .= MAGS;
+                $display = MAGS;
 
                 $storeManager = new StoreManager($db);
-                $display = $storeManager->update($db, $input);
+                $storeManager->update($db, $input);
             }
             break;
         case "DELETE":
@@ -92,35 +93,32 @@ if (empty($params) || !isset($params[1])) {
                 if (is_numeric($params[2])) {
 
                     if ($params[1] === PROD) {
-                        $display .= PRODS;
                         $productManager = new ProductManager($db);
-                        $display = $productManager->delete($db, (int)$params[2]);
+                        $display = PRODS . $productManager->delete($db, (int)$params[2]);
                     } elseif ($params[1] === CAT) {
-                        $display .= CATS;
-                            $categoryManager = new CategoryManager($db);
-                        $display = $categoryManager->delete($db, (int)$params[2]);
+                        $categoryManager = new CategoryManager($db);
+                        $display = CATS . $categoryManager->delete($db, (int)$params[2]);
                     } elseif ($params[1] === MAG) {
-                        $display .= MAGS;
                         $storeManager = new StoreManager($db);
-                        $display = $storeManager->delete($db, (int)$params[2]);
+                        $display = MAGS . $storeManager->delete($db, (int)$params[2]);
                     }
 
                 } else {
-                    $display .= NO_CORRECT_PARAM_NEED_ID;
+                    $display = NO_CORRECT_PARAM_NEED_ID;
                 }
 
             } else {
-                $display .= NO_ID;
+                $display = NO_ID;
             }
             break;
         case "GET":
             $display = 'Affichage ';
 
             if ($params[1] === PROD) {
-                $display .= PRODS;
                 $productManager = new ProductManager($db);
 
-                if (isset($params[2]) && !empty($params[2])) {
+                if (isset($params[2])) {
+                    $display = PRODS;
 
                     switch ($params[2]) {
                         case ORDER:
@@ -129,11 +127,11 @@ if (empty($params) || !isset($params[1])) {
                                 if ($params[3] === CAT) {
                                     $display .= " triés par " . $params[3] . "<br>";
 
-                                    $display = $productManager->getAllOrderByCategory($db);
+                                    $productManager->getAllOrderByCategory($db);
                                 } elseif ($params[3] === MAG) {
-                                    $display = $productManager->getAllOrderByStore($db);
+                                    $productManager->getAllOrderByStore($db);
                                 } else {
-                                    $display .= 'Paramètre non correcte, après "' . ORDER . '" veuillez fournir "' . CAT . '" ou "' . MAG .'"';
+                                    $display = 'Paramètre non correcte, après "' . ORDER . '" veuillez fournir "' . CAT . '" ou "' . MAG .'"';
                                 }
 
                             } else {
@@ -141,51 +139,41 @@ if (empty($params) || !isset($params[1])) {
                             }
                             break;
                         case CAT:
-                            $display .= " par " . CAT . "<br>";
-                            if (isset($params[3]) && is_numeric($params[3])) {
-                                $display = $productManager->getAllByCategory($db, (int)$params[3]);
-                            } else {
-                                $display .= NO_ID;
-                            }
+                            $display = " par " . CAT . "<br>";
+                            $display = (isset($params[3]) && is_numeric($params[3])) ? $productManager->getAllByCategory($db, (int)$params[3]) : NO_ID;
                             break;
                         case MAG:
-                            $display .= " par " . MAG . "<br>";
-                            if (isset($params[3]) && is_numeric($params[3])) {
-                                $display = $productManager->getAllByStore($db, (int)$params[3]);
-                            } else {
-                                $display .= NO_ID;
-                            }
+                            $display = " par " . MAG . "<br>";
+                            $display = (isset($params[3]) && is_numeric($params[3])) ? $productManager->getAllByStore($db, (int)$params[3]) : NO_ID;
                             break;
                         case BOTH:
-                            $display .= " par " . CAT . " et " . MAG . "<br>";
-                            if (isset($params[3]) && isset($params[4]) && is_numeric($params[3]) && is_numeric($params[4])) {
-                                $display = $productManager->getAllByCategoryAndStore($db, (int)$params[3], (int)$params[4]);
-                            } else {
-                                $display .= 'Veuillez fournir deux ids';
-                            }
+                            $display = " par " . CAT . " et " . MAG . "<br>";
+                            $display = (isset($params[3]) && isset($params[4]) && is_numeric($params[3]) && is_numeric($params[4]))  ? $productManager->getAllByCategoryAndStore($db, (int)$params[3], (int)$params[4]) : 'Veuillez fournir deux ids';
                             break;
                         default:
                             if (is_numeric($params[2])) {
-                                $display = $productManager->findById($db, (int)$params[2]);
+                                $result = $productManager->findById($db, (int)$params[2]);
+                                $display = $result ? $result : NO_EXIST_ID;
                             } else {
-                                $display .= NO_CORRECT_PARAM_NEED_ID .', ou "' . BOTH . '" et deux ids';
+                                $display = NO_CORRECT_PARAM_NEED_ID .', ou "' . BOTH . '" et deux ids';
                             }
                     }
 
                 } else {
-                    $display = $productManager->getAll($db);
+                    $display = PRODS . $productManager->getAll($db);
                 }
 
             } elseif ($params[1] === CAT) {
-                $display .= CATS;
+                $display = CATS;
                 $categoryManager = new CategoryManager($db);
 
-                if (isset($params[2]) && !empty($params[2])) {
+                if (isset($params[2])) {
 
                     if (is_numeric($params[2])) {
-                        $display = $categoryManager->findById($db, (int)$params[2]);
+                        $result = $categoryManager->findById($db, (int)$params[2]);
+                        $display = $result ? PRODS . $result : NO_EXIST_ID;
                     } else {
-                        $display .= NO_CORRECT_PARAM_NEED_ID;
+                        $display = NO_CORRECT_PARAM_NEED_ID;
                     }
 
                 } else {
@@ -193,15 +181,16 @@ if (empty($params) || !isset($params[1])) {
                 }
 
             } elseif ($params[1] === MAG) {
-                $display .= MAGS;
+                $display = MAGS;
                 $storeManager = new StoreManager($db);
 
-                if (isset($params[2]) && !empty($params[2])) {
+                if (isset($params[2])) {
 
                     if (is_numeric($params[2])) {
-                        $display = $storeManager->findById($db, (int)$params[2]);
+                        $result = $storeManager->findById($db, (int)$params[2]);
+                        $display = $result ? PRODS . $result : NO_EXIST_ID;
                     } else {
-                        $display .= NO_CORRECT_PARAM_NEED_ID;
+                        $display = NO_CORRECT_PARAM_NEED_ID;
                     }
 
                 } else {

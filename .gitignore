@@ -13,4 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
-/php/sup
+/php/my_list.sql
+/php/params-req-http.docx
+My-List.docx

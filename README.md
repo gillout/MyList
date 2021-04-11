@@ -1,2 +1,0 @@
-# MyList
-Formation Android Studio

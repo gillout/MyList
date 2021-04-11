@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MyListActivity">
+    tools:context=".list.MyListActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/titleLayoutMyList"
+            android:id="@+id/titleLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -21,37 +21,76 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/titleMyList"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="@string/title_my_list"
-                style="@style/title" />
+            <SearchView
+                android:id="@+id/shapeListSearchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:iconifiedByDefault="false"
+                android:queryHint="Rechercher votre produit">
+            </SearchView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="7dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/titleLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/addProd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:paddingLeft="10dp"
+                android:text="Ajouter un produit"
+                android:onClick="toProductsWs"
+                app:backgroundTint="@color/dark_blue" />
+
+            <Button
+                android:id="@+id/listsOfLists"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:paddingRight="10dp"
+                android:text="Choisir une liste"
+                android:onClick="toShoppingLists"
+                app:backgroundTint="@color/blue" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/myListLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="100dp"
             android:layout_marginBottom="62dp"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/titleLayoutMyList"
+            app:layout_constraintBottom_toTopOf="@+id/bottomLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/bottomLayout">
+            app:layout_constraintTop_toBottomOf="@+id/btnLayout">
 
             <ListView
                 android:id="@+id/myListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"/>
+                android:paddingLeft="8dp"
+                android:paddingRight="10dp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/bottomLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,10 +101,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="7dp"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/deleteList"
@@ -73,73 +110,72 @@
                     android:layout_height="match_parent"
                     android:text="Supprimer la liste"
                     app:backgroundTint="@color/red" />
-
             </LinearLayout>
 
             <View
                 android:id="@+id/leftSeparator"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/light_gray" />
+                android:background="@color/gray" />
 
             <LinearLayout
                 android:id="@+id/nbProductLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.4"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/nbProduct"
+                    style="@style/txtLayoutBottomMyList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:textColor="@color/black"
                     android:text="23"
-                    style="@style/txtLayoutBottomLists" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/txtNbProduct"
+                    style="@style/txtLayoutBottomMyList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:text="Produits"
-                    style="@style/txtLayoutBottomLists" />
+                    android:text="Produits" />
             </LinearLayout>
 
             <View
                 android:id="@+id/rightSeparator"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/light_gray" />
+                android:background="@color/gray" />
 
             <LinearLayout
                 android:id="@+id/totalPriceLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.4"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/totalPrice"
+                    style="@style/txtLayoutBottomMyList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:textColor="@color/black"
                     android:text="35"
-                    style="@style/txtLayoutBottomLists" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/txtTotalPrice"
+                    style="@style/txtLayoutBottomMyList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:text="Prix Total"
-                    style="@style/txtLayoutBottomLists" />
+                    android:text="Prix Total" />
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

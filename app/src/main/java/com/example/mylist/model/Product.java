@@ -3,10 +3,15 @@ package com.example.mylist.model;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+/**
+ * Classe représentant un produit depuis l'entité de la BD locale
+ */
 @Entity
 public class Product {
+
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
@@ -20,16 +25,55 @@ public class Product {
     private String category;
     @ColumnInfo
     private String store;
+    @ColumnInfo
+    private int shoppinglistId;
 
-    public Product(int id, String name, String brand, double price, String category, String store) {
+    /**
+     * Constructeur
+     * @param id
+     * @param name
+     * @param brand
+     * @param price
+     * @param category
+     * @param store
+     * @param shoppinglistId
+     */
+    public Product(int id, String name, String brand, double price, String category, String store, int shoppinglistId) {
         this.id = id;
         this.name = name;
         this.brand = brand;
         this.price = price;
         this.category = category;
         this.store = store;
+        this.shoppinglistId = shoppinglistId;
     }
 
+    /**
+     * Constructeur sans l'id, pour la création en vue de l'insertion en BD, si besoin
+     * @param name
+     * @param brand
+     * @param price
+     * @param category
+     * @param store
+     * @param shoppinglistId
+     */
+    public Product(String name, String brand, double price, String category, String store, int shoppinglistId) {
+        this.name = name;
+        this.brand = brand;
+        this.price = price;
+        this.category = category;
+        this.store = store;
+        this.shoppinglistId = shoppinglistId;
+    }
+
+    /**
+     * Constructeur sans l'id et sans liaison à une "shoppinglist", pour la création en vue de l'insertion en BD, si besoin
+     * @param name
+     * @param brand
+     * @param price
+     * @param category
+     * @param store
+     */
     public Product(String name, String brand, double price, String category, String store) {
         this.name = name;
         this.brand = brand;
@@ -38,6 +82,9 @@ public class Product {
         this.store = store;
     }
 
+    /**
+     * Constructeur par défaut
+     */
     public Product() {}
 
     public int getId() {
@@ -88,6 +135,14 @@ public class Product {
         this.store = store;
     }
 
+    public int getShoppinglistId() {
+        return shoppinglistId;
+    }
+
+    public void setShoppinglistId(int shoppinglistId) {
+        this.shoppinglistId = shoppinglistId;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -97,6 +152,7 @@ public class Product {
                 ", price='" + price + '\'' +
                 ", categories=" + category +
                 ", stores=" + store +
+                ", shoppinglistId=" + shoppinglistId +
                 '}';
     }
 
@@ -110,7 +166,8 @@ public class Product {
                 brand.equals(product.brand) &&
                 price == product.price &&
                 category.equals(product.category) &&
-                store.equals(product.store);
+                store.equals(product.store) &&
+                shoppinglistId == product.shoppinglistId;
     }
 
 }

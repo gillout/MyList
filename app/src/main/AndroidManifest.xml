@@ -11,10 +11,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyList">
-        <activity android:name=".ProductsListActivity"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".MyListActivity"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".admin.list.ListCategory"
+            android:parentActivityName=".admin.form.FormCategory" />
+        <activity
+            android:name=".admin.list.ListProduct"
+            android:parentActivityName=".admin.form.FormProduct" />
+        <activity
+            android:name=".admin.list.ListStore"
+            android:parentActivityName=".admin.form.FormStore" />
+        <activity
+            android:name=".admin.list.ListShoppinglist"
+            android:parentActivityName=".admin.form.FormShoppinglist" />
+        <activity
+            android:name=".admin.form.FormCategory"
+            android:parentActivityName=".admin.HomeAdmin" />
+        <activity
+            android:name=".admin.form.FormProduct"
+            android:parentActivityName=".admin.HomeAdmin" />
+        <activity
+            android:name=".admin.form.FormStore"
+            android:parentActivityName=".admin.HomeAdmin" />
+        <activity
+            android:name=".admin.form.FormShoppinglist"
+            android:parentActivityName=".admin.HomeAdmin" />
+        <activity
+            android:name=".admin.HomeAdmin"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".list.MyListsActivity"
+            android:parentActivityName=".list.MyListActivity" />
+        <activity
+            android:name=".list.MyListActivityWs"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".list.MyListActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

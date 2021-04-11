@@ -17,13 +17,12 @@ class ProductManager
     }
 
     public function getAll($db) {
-        $results = $db->query("SELECT * FROM product")->fetchAll();
-        header("content-type", "application/json");
-        $products = [];
-        foreach($results as $row) {
-            $products[] = $row;
-        }
-        return json_encode($products);
+        $results = $db->query("SELECT p.name as 'prodName', p.brand, p.price, c.name as 'catName', s.name as 'storeName'
+        FROM product p
+        INNER JOIN category c ON c.id = p.idCat
+        INNER JOIN store s ON p.idStore = s.id;");
+        $tab = $results->fetchAll(PDO::FETCH_ASSOC);
+        return json_encode($tab);
     }
 
     public function getAllOrderByCategory($db) {

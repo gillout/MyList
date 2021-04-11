@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".form.FormCategory">
+    tools:context=".admin.form.FormCategory">
 
     <TextView
         android:id="@+id/titleCategoryAdd"
@@ -15,7 +15,7 @@
         style="@style/title" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/eCategoryName"
+        android:id="@+id/txtInLayoutCategoryName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -35,6 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eCategoryName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -47,8 +48,7 @@
         app:backgroundTint="#234459"
         android:onClick="categoryRegistration"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eCategoryName"
+        app:layout_constraintTop_toBottomOf="@+id/txtInLayoutCategoryName"
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/button" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
