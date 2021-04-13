@@ -1,5 +1,6 @@
 package com.example.mylist.admin.list;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,5 +17,6 @@ public class ListShoppinglist extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_shoppinglist);
         getSupportActionBar().setTitle("Listes de courses");
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 }

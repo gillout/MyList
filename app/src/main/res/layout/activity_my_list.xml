@@ -100,7 +100,7 @@
                 android:id="@+id/buttonLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.9"
+                android:layout_weight="0.8"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -108,7 +108,7 @@
                     android:id="@+id/deleteList"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Supprimer la liste"
+                    android:text="Supprimer les produits"
                     app:backgroundTint="@color/red" />
             </LinearLayout>
 
@@ -122,7 +122,7 @@
                 android:id="@+id/nbProductLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4"
+                android:layout_weight="1.6"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -155,7 +155,7 @@
                 android:id="@+id/totalPriceLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4"
+                android:layout_weight="1.6"
                 android:gravity="center"
                 android:orientation="vertical">
 

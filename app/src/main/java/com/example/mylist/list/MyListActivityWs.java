@@ -37,7 +37,6 @@ public class MyListActivityWs extends AppCompatActivity {
             db = AppDatabase.getInstance(this);
             MyListActivityWs.shoplist = db.shoppinglistItemDao().findByName(listName);
         }
-        Toast.makeText(this, "Coucou", Toast.LENGTH_SHORT).show();
 
         // Le traitement pour afficher la liste se fait dans la classe Asynchrone
         Asynchrone asynchrone = new Asynchrone(this, "get");

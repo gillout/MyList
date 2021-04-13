@@ -10,12 +10,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -40,8 +42,8 @@ public class MyListsActivity extends AppCompatActivity {
     private SearchView searchView;
 
     TextInputEditText shoplistName;
-
-    Button addSomething, deleteShoppinglists;
+    ArrayList<Shoppinglist> shoppinglists;
+    Button deleteShoppinglists;
     ListView myListsView;
 
     @Override
@@ -57,10 +59,48 @@ public class MyListsActivity extends AppCompatActivity {
         deleteShoppinglists = findViewById(R.id.delAllLists);
 
         db = AppDatabase.getInstance(this);
-        ArrayList<Shoppinglist> shoppinglists = (ArrayList<Shoppinglist>) db.shoppinglistItemDao().getAll();
+        shoppinglists = (ArrayList<Shoppinglist>) db.shoppinglistItemDao().getAll();
 
         MyListsActivity.AndroidAdapter adapter = new MyListsActivity.AndroidAdapter(this, R.layout.row_my_lists, shoppinglists);
         myListsView.setAdapter((ListAdapter) adapter);
+    }
+
+    /**
+     * Ajoute un enregistrement dans la table "shoppinglist" en BD
+     * @param view
+     */
+    public void shoppinglistRegistration(View view) {
+        shoppinglists = (ArrayList<Shoppinglist>) db.shoppinglistItemDao().getAll();
+        String name = shoplistName.getText().toString();
+        if (name.length() > 2) {
+
+            if (shoppinglists.isEmpty()) {
+                addShoppinglist(name);
+            } else {
+                for (int i = 0; i < shoppinglists.size(); i++) {
+                    if (shoppinglists.get(i).getName().toLowerCase().equals(name.toLowerCase())) {
+                        Toast.makeText(this, "Nom déjà utilisé, veuillez réessayer", Toast.LENGTH_LONG).show();
+                        break;
+                    } else {
+                        addShoppinglist(name);
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(this,"Nom invalide, 3 caractères minimum", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Ajoute la liste de courses dont le nom est passé en paramètre
+     * @param name
+     */
+    public void addShoppinglist(String name) {
+        Shoppinglist shoppinglist = new Shoppinglist(name);
+        db.shoppinglistItemDao().insert(shoppinglist);
+        Intent intent = new Intent(this, MyListActivityWs.class);
+        intent.putExtra("listname", name);
+        startActivity(intent);
     }
 
     /**
@@ -78,16 +118,16 @@ public class MyListsActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) // s corresponds au texte saisie dans le champs de recherche
             {
-                // products corresponds à la liste afficher au début
+                // products corresponds à la liste affichée au début
                 ArrayList<Shoppinglist> shoppinglists = (ArrayList<Shoppinglist>) db.shoppinglistItemDao().getAll();
 
-                // filteredShapes corresponds à la liste des objets filtré
+                // filteredShapes corresponds à la liste des objets filtrés
                 ArrayList<Shoppinglist> filteredShapes = new ArrayList<Shoppinglist>();
 
                 for(Shoppinglist shoppinglist : shoppinglists)
                 {
-                    // Comparaison du nom, de la catégorie, du magasin, à la chaine taper dans le searchView
-                    if(shoppinglist.getName().toLowerCase().contains(s.toLowerCase())) {
+                    // Comparaison du nom, de la catégorie, du magasin, à la chaine tapée dans le searchView
+                    if (shoppinglist.getName().toLowerCase().contains(s.toLowerCase())) {
                         filteredShapes.add(shoppinglist);
                     }
                 }
@@ -99,30 +139,6 @@ public class MyListsActivity extends AppCompatActivity {
             }
         });
     }
-
-    /**
-     * Ajoute un enregistrement dans la table "shoppinglist" en BD
-     * @param view
-     */
-    public void shoppinglistRegistration(View view) {
-        String name = shoplistName.getText().toString();
-        Shoppinglist shoppinglist = new Shoppinglist(name);
-        db.shoppinglistItemDao().insert(shoppinglist);
-        Intent i = new Intent(this, MyListActivityWs.class);
-        i.putExtra("listname", name);
-        startActivity(i);
-    }
-
-    /**
-     * Affiche l'Activity du formulaire d'ajout d'une liste
-     * @param view
-     */
-    /*
-    public void toFormAddShoppinglist(View view) {
-        Intent i = new Intent(this, FormShoppinglist.class);
-        startActivity(i);
-    }
-    */
 
     /**
      * Adapter personnalisé pour l'affichage de la liste des "shoppinglist" (stockés en BD locale)
@@ -155,6 +171,18 @@ public class MyListsActivity extends AppCompatActivity {
                 LayoutInflater inflater = getLayoutInflater();
                 convertView = inflater.inflate(R.layout.row_my_lists, parent, false);
             }
+
+            LinearLayout lineList = convertView.findViewById(R.id.lineListsView);
+
+            lineList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String nomList = shoppinglists.get(position).getName();
+                    Intent i = new Intent(getApplicationContext(), MyListActivity.class);
+                    i.putExtra("listname", nomList);
+                    startActivity(i);
+                }
+            });
 
             TextView textnom = convertView.findViewById(R.id.lList);
             TextView textshared = convertView.findViewById(R.id.lShared);

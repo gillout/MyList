@@ -43,12 +43,12 @@ public interface DaoProduct {
     @Query("SELECT * FROM product WHERE shoppinglistId = :idList")
     List<Product> getProductByShoppingListId(int idList);
 
-    // Requète qui compte le nombre de catégorie
-    @Query("SELECT COUNT(*) FROM product")
-    int countItems();
+    // Requète qui compte le nombre de produits de la liste dont l'id est passé en paramètre
+    @Query("SELECT COUNT(*) FROM product WHERE shoppinglistId = :idList")
+    int countItems(int idList);
 
-    // Requète qui fait la somme des prix des produits
-    @Query("SELECT SUM(price) FROM product")
-    double totalPrice();
+    // Requète qui fait la somme des prix des produits de la liste dont l'id est passé en paramètre
+    @Query("SELECT SUM(price) FROM product WHERE shoppinglistId = :idList")
+    double totalPrice(int idList);
 
 }

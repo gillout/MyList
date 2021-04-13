@@ -4,9 +4,9 @@ class MyPDO extends PDO {
 
     private $sgbd = 'mysql';
     private $db = '';
-    private $host = 'localhost';
+    private $host = '';
     private $user = '';
-    private $password = '';
+    private $password = '19690512';
 
     public function __construct() {
         $sgbdHost = $this->sgbd . ':dbname=' . $this->db . ';host=' . $this->host;

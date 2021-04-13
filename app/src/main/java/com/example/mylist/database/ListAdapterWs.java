@@ -49,7 +49,6 @@ public class ListAdapterWs extends ArrayAdapter<ProductWs> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LinearLayout listviewWs;
         View v = convertView;
         if (v == null) {
             LayoutInflater vi;
@@ -78,7 +77,7 @@ public class ListAdapterWs extends ArrayAdapter<ProductWs> {
         lineListWs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(getContext(), MainActivity.class);
+                Shoppinglist shoppinglist = MyListActivityWs.shoplist;
                 Toast.makeText(getContext(), "Salut", Toast.LENGTH_SHORT).show();
             }
         });
@@ -89,14 +88,13 @@ public class ListAdapterWs extends ArrayAdapter<ProductWs> {
         addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Shoppinglist shoppinglist = MyListActivityWs.shoplist;
+                String nameList = shoppinglist.getName();
+                int idList = shoppinglist.getId();
                 db = AppDatabase.getInstance(getContext());
-                Product product = new Product(nom, marque, prix, categorie, magasin);
+                Product product = new Product(nom, marque, prix, categorie, magasin, idList);
                 db.productItemDao().insert(product);
-//                Shoppinglist shoppinglist = MyListActivityWs.shoplist;
-//                Log.d("result", String.valueOf(shoppinglist.getId()));
-//                Toast.makeText(getContext(), "Votre produit à bien été ajouté", Toast.LENGTH_SHORT).show();
-//                    Intent i = new Intent(getContext(), MyListActivity.class);
-//                    activity.startActivity(i);
+                Toast.makeText(getContext(), nom + " a bien été ajouté à votre liste " + nameList, Toast.LENGTH_SHORT).show();
             }
         });
         return v;

@@ -117,6 +117,7 @@ public class Asynchrone extends AsyncTask<Object, Integer, String> {
      */
     private void initSearchWidgets(ListView listViewWs, List<ProductWs> productWs) {
         SearchView searchView = (SearchView) activity.findViewById(R.id.shapeListSearchView);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -124,12 +125,15 @@ public class Asynchrone extends AsyncTask<Object, Integer, String> {
             }
 
             @Override
-            public boolean onQueryTextChange(String s)
+            public boolean onQueryTextChange(String s) // s corresponds au text saisie dans le champs de recherche
             {
+                // filteredShapes corresponds à la liste des objets filtrés
                 ArrayList<ProductWs> filteredShapes = new ArrayList<ProductWs>();
+
                 for(ProductWs product: productWs)
                 {
-                    if(product.getProdName().toLowerCase().contains(s.toLowerCase()) ||
+                    // Comparaison du nom, de la catégorie, du magasin, à la chaine tapée dans le searchView
+                    if (product.getProdName().toLowerCase().contains(s.toLowerCase()) ||
                             product.getCatName().toLowerCase().contains(s.toLowerCase()) ||
                             product.getStoreName().toLowerCase().contains(s.toLowerCase()))
                     {

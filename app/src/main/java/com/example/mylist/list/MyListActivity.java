@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.mylist.R;
 import com.example.mylist.database.AppDatabase;
 import com.example.mylist.model.Product;
+import com.example.mylist.model.Shoppinglist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,47 +36,94 @@ import java.util.List;
  */
 public class MyListActivity extends AppCompatActivity {
 
-    private AppDatabase db;
-    private SearchView searchView;
-    private int countProduct;
-    private double sumPrice, sumPriceRounded;
-
+    AppDatabase db;
+    SearchView searchView;
     Button addProd, listsOfLists, deleteAll;
     ListView listViewMyProducts;
     TextView nbproduct, lNbProduct, totalPrice;
-    String sumPriceTxt;
+
+    ArrayList<Product> products;
+    int countProduct, idList;
+    double sumPrice, sumPriceRounded;
+    String sumPriceTxt, listName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_list);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getSupportActionBar().setTitle("Ma Liste");
-        initSearchWidgets();
+        getSupportActionBar().setTitle("Ma liste");
+
+        init();
+
+        Intent i = getIntent();
+        if (i != null) {
+            listName = i.getStringExtra("listname");
+            db = AppDatabase.getInstance(this);
+            MyListActivityWs.shoplist = db.shoppinglistItemDao().findByName(listName);
+            Shoppinglist shoppinglist = MyListActivityWs.shoplist;
+            idList = shoppinglist.getId();
+
+            getSupportActionBar().setTitle(getSupportActionBar().getTitle() + " : " + listName);
+
+            products = (ArrayList<Product>) db.productItemDao().getProductByShoppingListId(idList);
+
+            AndroidAdapter adapter = new AndroidAdapter(this, R.layout.row_my_list, products);
+            listViewMyProducts.setAdapter((ListAdapter) adapter);
+
+            countProduct = db.productItemDao().countItems(idList);
+            nbproduct = findViewById(R.id.nbProduct);
+            lNbProduct = findViewById(R.id.txtNbProduct);
+            totalPrice = findViewById(R.id.totalPrice);
+
+            calculSumPrice(idList);
+
+            if (countProduct > 1) {
+                lNbProduct.setText("Produits");
+            }
+            nbproduct.setText(String.valueOf(countProduct));
+        }
+    }
+
+    /**
+     * Initialise les variables pour récupérer les Views
+     */
+    public void init() {
         addProd = findViewById(R.id.addProd);
         listsOfLists = findViewById(R.id.listsOfLists);
         listViewMyProducts = findViewById(R.id.myListView);
         deleteAll = findViewById(R.id.deleteList);
-        db = AppDatabase.getInstance(this);
+        initSearchWidgets();
+    }
 
-        ArrayList<Product> products = (ArrayList<Product>) db.productItemDao().getAll();
-
-        AndroidAdapter adapter = new AndroidAdapter(this, R.layout.row_my_list, products);
-        listViewMyProducts.setAdapter((ListAdapter) adapter);
-
-        countProduct = db.productItemDao().countItems();
-        nbproduct = findViewById(R.id.nbProduct);
-        lNbProduct = findViewById(R.id.txtNbProduct);
-        sumPrice = db.productItemDao().totalPrice();
+    /**
+     * Calcul la somme totale des prix des produits de la liste dont l'id
+     * est passé en paramètre, puis l'arrondit pour ensuite l'afficher
+     */
+    public void calculSumPrice(int idList) {
+        sumPrice = db.productItemDao().totalPrice(idList);
         sumPriceRounded = Math.round(sumPrice * 100.0) / 100.0;
-        totalPrice = findViewById(R.id.totalPrice);
-
-        if(countProduct > 1){
-            lNbProduct.setText("Produits");
-        }
-        nbproduct.setText(String.valueOf(countProduct));
         sumPriceTxt = sumPriceRounded + " €";
         totalPrice.setText(sumPriceTxt);
+    }
+
+    /**
+     * Affiche l'Activity de la liste des produits du WS (serveur distant)
+     * @param view
+     */
+    public void toProductsWs(View view) {
+        Intent i = new Intent(this, MyListActivityWs.class);
+        i.putExtra("listname", listName);
+        startActivity(i);
+    }
+
+    /**
+     * Affiche l'Activity de la liste des "shoppinglist"
+     * @param view
+     */
+    public void toShoppingLists(View view) {
+        Intent i = new Intent(this, MyListsActivity.class);
+        startActivity(i);
     }
 
     /**
@@ -93,16 +141,16 @@ public class MyListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) // s corresponds au text saisie dans le champs de recherche
             {
-                // products corresponds à la liste afficher au début
-                ArrayList<Product> products = (ArrayList<Product>) db.productItemDao().getAll();
+                // products corresponds à la liste affichée au début
+//                products = (ArrayList<Product>) db.productItemDao().getAll();
 
-                // filteredShapes corresponds à la liste des objets filtré
+                // filteredShapes corresponds à la liste des objets filtrés
                 ArrayList<Product> filteredShapes = new ArrayList<Product>();
 
                 for(Product product: products)
                 {
-                    // on compare le nom, catégorie, magasin à la chaine taper dans le searchView
-                    if(product.getName().toLowerCase().contains(s.toLowerCase()) ||
+                    // Comparaison du nom, de la catégorie, du magasin, à la chaine tapée dans le searchView
+                    if (product.getName().toLowerCase().contains(s.toLowerCase()) ||
                             product.getCategory().toLowerCase().contains(s.toLowerCase()) ||
                             product.getStore().toLowerCase().contains(s.toLowerCase()))
                     {
@@ -116,24 +164,6 @@ public class MyListActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-    /**
-     * Affiche l'Activity de la liste des produits du WS (serveur distant)
-     * @param view
-     */
-    public void toProductsWs(View view) {
-        Intent i = new Intent(this, MyListActivityWs.class);
-        startActivity(i);
-    }
-
-    /**
-     * Affiche l'Activity de la liste des "shoppinglist"
-     * @param view
-     */
-    public void toShoppingLists(View view) {
-        Intent i = new Intent(this, MyListsActivity.class);
-        startActivity(i);
     }
 
     /**
@@ -207,11 +237,9 @@ public class MyListActivity extends AppCompatActivity {
                     myListProducts.remove(position);
                     // On soustrait un au nombre de produits
                     nbproduct.setText(String.valueOf(Integer.parseInt(nbproduct.getText().toString()) - 1));
-                    // Soustraction du prix du produit supprimé au total
-                    sumPrice -= myListProducts.get(position).getPrice();
-                    sumPriceRounded = Math.round(sumPrice * 100.0) / 100.0;
-                    sumPriceTxt = sumPriceRounded + " €";
-                    totalPrice.setText(sumPriceTxt);
+
+                    calculSumPrice(idList);
+
                     // Rafraîchissement de la vue
                     listViewMyProducts.invalidateViews();
                 }
@@ -225,17 +253,16 @@ public class MyListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setCancelable(true);
-                    builder.setTitle("Supprimer la liste");
-                    builder.setMessage("Etes vous certains de vouloir supprimer votre liste ?");
+                    builder.setTitle("Supprimer tous les produits");
+                    builder.setMessage("Etes vous certains de vouloir supprimer tous les produits ?");
                     builder.setPositiveButton("Confirmer",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    List<Product> products = db.productItemDao().getAll();
                                     db.productItemDao().deleteAll(products);
                                     Intent i = new Intent(getContext(), MyListActivity.class);
                                     startActivity(i);
-                                    Toast.makeText(getContext(),"Votre liste a bien été supprimée", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(),"Votre liste a bien été vidé", Toast.LENGTH_SHORT).show();
                                 }
                             });
                     builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {

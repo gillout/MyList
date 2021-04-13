@@ -3,6 +3,7 @@ package com.example.mylist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,9 +56,7 @@ public class MainActivity extends AppCompatActivity {
         cardProds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cardProds.setCardElevation(3);
-                Intent i = new Intent(getApplicationContext(), MyListActivityWs.class);
-                startActivity(i);
+                cardElevationAndDisplayActivity(cardLists, 3, MyListActivityWs.class);
             }
         });
 
@@ -67,11 +66,21 @@ public class MainActivity extends AppCompatActivity {
         cardLists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cardLists.setCardElevation(3);
-                Intent i = new Intent(getApplicationContext(), MyListsActivity.class);
-                startActivity(i);
+                cardElevationAndDisplayActivity(cardLists, 3, MyListsActivity.class);
             }
         });
+    }
+
+    /**
+     * Définit le niveau d'élévation fournie en paramètre et affiche l'Activity cible
+     * @param cardView Nom de la CardView
+     * @param elevation Niveau d'élévation (donne un effet de superposition)
+     * @param activityName Activity cible
+     */
+    public void cardElevationAndDisplayActivity(CardView cardView, int elevation, Class activityName) {
+        cardView.setCardElevation(elevation);
+        Intent i = new Intent(getApplicationContext(), activityName);
+        startActivity(i);
     }
 
     /**
@@ -81,26 +90,6 @@ public class MainActivity extends AppCompatActivity {
     public void homeAdmin(View view) {
         Intent i = new Intent(this, HomeAdmin.class);
         startActivity(i);
-    }
-
-    /**
-     * Affiche l'Activity de la liste des produits en BD locale
-     * @param view
-     */
-    public void toMyList(View view) {
-        Intent i = new Intent(this, MyListActivity.class);
-        startActivity(i);
-    }
-
-    /**
-     * Lance les deux fonctions du dessous, dont une qui ajoute des "shoppinglist"
-     * et l'autre qui ajoute des produits aux "shoppinglist"
-     * @param view
-     */
-    public void addProdsAndLists(View view) {
-        db = AppDatabase.getInstance(this);
-        createShoppinglists();
-        createProducts();
     }
 
     /**
